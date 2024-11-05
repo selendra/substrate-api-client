@@ -39,7 +39,7 @@ async fn main() {
 pub fn send_code_update_extrinsic(
 	api: &substrate_api_client::Api<AssetRuntimeConfig, JsonrpseeClient>,
 ) {
-	let new_wasm: &[u8] = include_bytes!("kitchensink_runtime.compact.compressed.wasm");
+	let new_wasm: &[u8] = include_bytes!("selendra_runtime.compact.compressed.wasm");
 
 	// Create a sudo `set_code` call.
 	let call = compose_call!(api.metadata(), "System", "set_code", new_wasm.to_vec());

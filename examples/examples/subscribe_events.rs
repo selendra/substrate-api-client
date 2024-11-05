@@ -24,7 +24,7 @@ use substrate_api_client::{
 
 // This module depends on the specific node runtime.
 // Replace this crate by your own if you run a custom substrate node to get your custom events.
-use kitchensink_runtime::RuntimeEvent;
+use selendra_runtime::RuntimeEvent;
 
 // To test this example with CI we run it against the Substrate kitchensink node, which uses the asset pallet.
 // Therefore, we need to use the `AssetRuntimeConfig` in this example.

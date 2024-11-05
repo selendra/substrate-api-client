@@ -17,7 +17,7 @@
 //! module, whereas the desired module and call are supplied as a string.
 
 use codec::Compact;
-use kitchensink_runtime::AccountId;
+use selendra_runtime::AccountId;
 use sp_keyring::AccountKeyring;
 use substrate_api_client::{
 	ac_compose_macros::{compose_call, compose_extrinsic},

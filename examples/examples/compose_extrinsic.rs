@@ -18,7 +18,7 @@
 //! - Compose an extrinsic without asking the node for nonce and without knowing the metadata
 
 use codec::Compact;
-use kitchensink_runtime::{BalancesCall, RuntimeCall};
+use selendra_runtime::{Balances as BalancesCall, RuntimeCall};
 use sp_keyring::AccountKeyring;
 use sp_runtime::{generic::Era, MultiAddress};
 use substrate_api_client::{

@@ -15,7 +15,7 @@
 
 //! Tests for the author rpc interface functions.
 
-use kitchensink_runtime::AccountId;
+use selendra_runtime::AccountId;
 use sp_core::{Encode, H256};
 use sp_keyring::AccountKeyring;
 use std::{thread, time::Duration};

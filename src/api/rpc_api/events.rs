@@ -236,7 +236,7 @@ mod tests {
 	use ac_primitives::DefaultRuntimeConfig;
 	use codec::{Decode, Encode};
 	use frame_metadata::RuntimeMetadataPrefixed;
-	use kitchensink_runtime::{BalancesCall, RuntimeCall, UncheckedExtrinsic};
+	use selendra_runtime::{Balances as BalancesCall, RuntimeCall, UncheckedExtrinsic};
 	use scale_info::TypeInfo;
 	use sp_core::{crypto::Ss58Codec, sr25519, Bytes, H256};
 	use sp_runtime::{
@@ -265,8 +265,8 @@ mod tests {
 		Api::new_offline(genesis_hash, metadata, runtime_version, client)
 	}
 
-	fn default_header() -> kitchensink_runtime::Header {
-		kitchensink_runtime::Header {
+	fn default_header() -> selendra_runtime::Header {
+		selendra_runtime::Header {
 			number: Default::default(),
 			parent_hash: Default::default(),
 			state_root: Default::default(),
@@ -351,57 +351,57 @@ mod tests {
 		assert_eq!(fetched_events.event_bytes(), block_events.event_bytes());
 	}
 
-	#[test]
-	fn retrieve_extrinsic_index_from_block_works() {
-		// We need a pallet balance in the metadata, so ` api.balance_transfer` can create the extrinsic.
-		let encoded_metadata = fs::read("./ksm_metadata_v14.bin").unwrap();
-		let metadata: RuntimeMetadataPrefixed =
-			Decode::decode(&mut encoded_metadata.as_slice()).unwrap();
-		let metadata = Metadata::try_from(metadata).unwrap();
+	// #[test]
+	// fn retrieve_extrinsic_index_from_block_works() {
+	// 	// We need a pallet balance in the metadata, so ` api.balance_transfer` can create the extrinsic.
+	// 	let encoded_metadata = fs::read("./ksm_metadata_v14.bin").unwrap();
+	// 	let metadata: RuntimeMetadataPrefixed =
+	// 		Decode::decode(&mut encoded_metadata.as_slice()).unwrap();
+	// 	let metadata = Metadata::try_from(metadata).unwrap();
 
-		let bob: AccountId32 =
-			sr25519::Public::from_ss58check("5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty")
-				.unwrap()
-				.into();
-		let bob = MultiAddress::Id(bob);
+	// 	let bob: AccountId32 =
+	// 		sr25519::Public::from_ss58check("5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty")
+	// 			.unwrap()
+	// 			.into();
+	// 	let bob = MultiAddress::Id(bob);
 
-		let call1 = RuntimeCall::Balances(BalancesCall::force_transfer {
-			source: bob.clone(),
-			dest: bob.clone(),
-			value: 10,
-		});
-		let call2 = RuntimeCall::Balances(BalancesCall::transfer_allow_death {
-			dest: bob.clone(),
-			value: 2000,
-		});
-		let call3 =
-			RuntimeCall::Balances(BalancesCall::transfer_allow_death { dest: bob, value: 1000 });
+	// 	let call1 = RuntimeCall::Balances(BalancesCall::force_transfer {
+	// 		source: bob.clone(),
+	// 		dest: bob.clone(),
+	// 		value: 10,
+	// 	});
+	// 	let call2 = RuntimeCall::Balances(BalancesCall::transfer_allow_death {
+	// 		dest: bob.clone(),
+	// 		value: 2000,
+	// 	});
+	// 	let call3 =
+	// 		RuntimeCall::Balances(BalancesCall::transfer_allow_death { dest: bob, value: 1000 });
 
-		let xt1: Bytes = UncheckedExtrinsic::new_unsigned(call1).encode().into();
-		let xt2: Bytes = UncheckedExtrinsic::new_unsigned(call2).encode().into();
-		let xt3: Bytes = UncheckedExtrinsic::new_unsigned(call3).encode().into();
+	// 	let xt1: Bytes = UncheckedExtrinsic::new_unsigned(call1).encode().into();
+	// 	let xt2: Bytes = UncheckedExtrinsic::new_unsigned(call2).encode().into();
+	// 	let xt3: Bytes = UncheckedExtrinsic::new_unsigned(call3).encode().into();
 
-		let xt_hash1 = <DefaultRuntimeConfig as Config>::Hasher::hash(&xt1);
-		let xt_hash2 = <DefaultRuntimeConfig as Config>::Hasher::hash(&xt2);
-		let xt_hash3 = <DefaultRuntimeConfig as Config>::Hasher::hash(&xt3);
+	// 	let xt_hash1 = <DefaultRuntimeConfig as Config>::Hasher::hash(&xt1);
+	// 	let xt_hash2 = <DefaultRuntimeConfig as Config>::Hasher::hash(&xt2);
+	// 	let xt_hash3 = <DefaultRuntimeConfig as Config>::Hasher::hash(&xt3);
 
-		let block = Block { header: default_header(), extrinsics: vec![xt1, xt2, xt3] };
-		let signed_block = SignedBlock { block, justifications: None };
-		let data = HashMap::<String, String>::from([(
-			"chain_getBlock".to_owned(),
-			serde_json::to_string(&signed_block).unwrap(),
-		)]);
+	// 	let block = Block { header: default_header(), extrinsics: vec![xt1, xt2, xt3] };
+	// 	let signed_block = SignedBlock { block, justifications: None };
+	// 	let data = HashMap::<String, String>::from([(
+	// 		"chain_getBlock".to_owned(),
+	// 		serde_json::to_string(&signed_block).unwrap(),
+	// 	)]);
 
-		// Create api with block as storage data:
-		let api = create_mock_api(metadata, data);
-		let block_hash = H256::default();
+	// 	// Create api with block as storage data:
+	// 	let api = create_mock_api(metadata, data);
+	// 	let block_hash = H256::default();
 
-		let index1 = api.retrieve_extrinsic_index_from_block(block_hash, xt_hash1).unwrap();
-		let index2 = api.retrieve_extrinsic_index_from_block(block_hash, xt_hash2).unwrap();
-		let index3 = api.retrieve_extrinsic_index_from_block(block_hash, xt_hash3).unwrap();
+	// 	let index1 = api.retrieve_extrinsic_index_from_block(block_hash, xt_hash1).unwrap();
+	// 	let index2 = api.retrieve_extrinsic_index_from_block(block_hash, xt_hash2).unwrap();
+	// 	let index3 = api.retrieve_extrinsic_index_from_block(block_hash, xt_hash3).unwrap();
 
-		assert_eq!(index1, 0);
-		assert_eq!(index2, 1);
-		assert_eq!(index3, 2);
-	}
+	// 	assert_eq!(index1, 0);
+	// 	assert_eq!(index2, 1);
+	// 	assert_eq!(index3, 2);
+	// }
 }

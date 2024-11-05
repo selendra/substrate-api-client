@@ -16,7 +16,7 @@
 //! This example is community maintained and not CI tested, therefore it may not work as is.
 
 use codec::Decode;
-use kitchensink_runtime::AccountId;
+use selendra_runtime::AccountId;
 use sp_keyring::AccountKeyring;
 use substrate_api_client::{
 	ac_compose_macros::primitives::AssetRuntimeConfig, ac_node_api::StaticEvent,

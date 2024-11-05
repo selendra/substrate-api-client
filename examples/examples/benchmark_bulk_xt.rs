@@ -15,7 +15,7 @@
 
 //! This example floods the node with a series of transactions.
 
-use kitchensink_runtime::{AccountId, BalancesCall, RuntimeCall};
+use selendra_runtime::{AccountId, Balances as BalancesCall, RuntimeCall};
 use sp_keyring::AccountKeyring;
 use substrate_api_client::{
 	ac_primitives::{AssetRuntimeConfig, ExtrinsicSigner as GenericExtrinsicSigner, SignExtrinsic},

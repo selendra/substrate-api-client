@@ -16,7 +16,7 @@
 //! Example to show how to get the account identity display name from the identity pallet.
 
 use frame_support::traits::Currency;
-use kitchensink_runtime::{MaxAdditionalFields, Runtime as KitchensinkRuntime};
+use selendra_runtime::{MaxAdditionalFields, Runtime as KitchensinkRuntime};
 use pallet_identity::{legacy::IdentityInfo, Data, Registration};
 use sp_core::{crypto::Pair, H256};
 use sp_keyring::AccountKeyring;

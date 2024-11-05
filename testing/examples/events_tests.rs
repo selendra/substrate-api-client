@@ -17,7 +17,7 @@
 
 use codec::Decode;
 use frame_support::dispatch::DispatchInfo;
-use kitchensink_runtime::RuntimeEvent;
+use selendra_runtime::RuntimeEvent;
 use sp_keyring::AccountKeyring;
 use substrate_api_client::{
 	ac_node_api::{EventDetails, StaticEvent},
